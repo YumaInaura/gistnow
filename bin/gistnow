@@ -1,5 +1,22 @@
 #!/usr/bin/env bash -eu
 
+readonly gistnow_path=${GISTNOW_PATH:-$HOME/gist}
+mkdir -p "$gistnow_path"
+
+echo "# Hello GIST" > "$gistnow_path"/GIST.md
+
+pushd "$gistnow_path"
+
+readonly gist_url=$(gist "$gistnow_path"/GIST.md)
+
+echo "$gist_url"
+
+gist_hash=$(echo "$gist_url" | awk -F'/' '{ print $4 }')
+
+readonly gist_name=${1:-$gist_hash}
+
+git clone "git@github.com:$gist_hash" "$gist_name"
+cd "$gist_name"
 
 # Gist (v5.0.0) lets you upload to https://gist.github.com/
 # 
