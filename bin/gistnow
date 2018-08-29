@@ -1,34 +1,24 @@
 #!/usr/bin/env bash -eu
 
+readonly gistnow_path=${GISTNOW_PATH:-$HOME/gist}
+mkdir -p "$gistnow_path"
+
+echo "# Hello GIST" > "$gistnow_path"/GIST.md
+
+pushd "$gistnow_path"
+
+readonly gist_url=$(gist "$gistnow_path"/GIST.md)
+
+echo "$gist_url"
+
+gist_hash=$(echo "$gist_url" | awk -F'/' '{ print $4 }')
+
+readonly gist_name=${1:-$gist_hash}
+
+git clone "git@github.com:$gist_hash" "$gist_name"
+cd "$gist_name"
 
 # Gist (v5.0.0) lets you upload to https://gist.github.com/
-# 
-# The content to be uploaded can be passed as a list of files, if none are
-# specified STDIN will be read. The default filename for STDIN is "a.rb", and all
-# filenames can be overridden by repeating the "-f" flag. The most useful reason
-# to do this is to change the syntax highlighting.
-# 
-# All gists must to be associated with a GitHub account, so you will need to login with
-# `gist --login` to obtain an Oauth2 access token. This is stored and used by gist in the future.
-# 
-# Private gists do not have guessable URLs and can be created with "-p", you can
-# also set the description at the top of the gist by passing "-d".
-# 
-# If you would like to shorten the resulting gist URL, use the -s flag. This will
-# use GitHub's URL shortener, git.io. You can also use -R to get the link to the
-# raw gist.
-# 
-# To copy the resulting URL to your clipboard you can use the -c option, or to
-# just open it directly in your browser, use -o. Using the -e option will copy the
-# embeddable URL to the clipboard. You can add `alias gist='gist -c'` to your
-# shell's rc file to configure this behaviour by default.
-# 
-# Instead of creating a new gist, you can update an existing one by passing its ID
-# or URL with "-u". For this to work, you must be logged in, and have created the
-# original gist with the same GitHub account.
-# 
-# If you want to skip empty files, use the --skip-empty flag. If all files are
-# empty no gist will be created.
 # 
 # Usage: gist [-o|-c|-e] [-p] [-s] [-R] [-d DESC] [-u URL]
 #                           [--skip-empty] [-P] [-f NAME|-t EXT]* FILE*
