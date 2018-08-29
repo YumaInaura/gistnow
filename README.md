@@ -15,6 +15,11 @@ gist --login
 ## Install
 
 ```
+git clone [this repository]
+```
+
+
+```
 cp ./bin/gistnow /usr/local/bin
 chmod +x /usr/local/bin/gistnow
 ```
