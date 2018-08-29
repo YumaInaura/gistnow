@@ -12,7 +12,7 @@ cp -f ./bin/gistnow /usr/local/bin
 chmod +x  /usr/local/bin/gistnow
 
 if [ $(which gistnow) ]; then
-  echo gist now is here
+  echo gistnow is here
   which gistnow
 else
   echo something wrong
